@@ -1,4 +1,7 @@
 import React from 'react';
+import { Counter } from "../Pages/Counter/Counter";
+import { RouterEx } from '../Pages/RouterEx/RouterEx';
+
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -56,7 +59,7 @@ export default function VerticalTabs() {
   };
 
   return (
-    <div className={classes.root}>
+    <nav className={classes.root}>
       <Tabs
         orientation="vertical"
         variant="scrollable"
@@ -66,18 +69,26 @@ export default function VerticalTabs() {
         className={classes.tabs}
       >
         <Tab label="Counter" {...a11yProps(0)} />
-        <Tab label="Item Two" {...a11yProps(1)} />
+        <Tab label="Router Ex" {...a11yProps(1)} />
         <Tab label="Item Three" {...a11yProps(2)} />
         <Tab label="Item Four" {...a11yProps(3)} />
         <Tab label="Item Five" {...a11yProps(4)} />
         <Tab label="Item Six" {...a11yProps(5)} />
         <Tab label="Item Seven" {...a11yProps(6)} />
       </Tabs>
+
       <TabPanel value={value} index={0}>
-        Item One
+        <Counter>
+        {({count, setCount}) => (
+          <div>
+            {count}
+            <button onClick={() => setCount(count + 1)}>+</button>
+          </div>
+        )}
+      </Counter>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <RouterEx/>
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
@@ -94,6 +105,6 @@ export default function VerticalTabs() {
       <TabPanel value={value} index={6}>
         Item Seven
       </TabPanel>
-    </div>
+    </nav>
   );
 }
