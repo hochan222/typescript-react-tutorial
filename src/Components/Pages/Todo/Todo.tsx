@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "./Todo.css";
+import { TodoList } from "./TodoList";
 
 interface Props {}
 
@@ -11,7 +13,11 @@ type FormElem = React.FormEvent<HTMLFormElement>;
 
 export const Todo: React.FC<Props> = () => {
   const [value, setValue] = useState<string>("");
-  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>([
+    { text: "Learn about React", complete: false },
+    { text: "Meet friend for lunch", complete: false },
+    { text: "Build really cool todo app", complete: false },
+  ]);
 
   const handleSubmit = (e: FormElem): void => {
     // preventDefault will stop the form from doing a refresh when submitted
@@ -25,8 +31,20 @@ export const Todo: React.FC<Props> = () => {
     setTodos(newTodos);
   };
 
+  const completeTodo = (index: number): void => {
+    const newTodos: ITodo[] = todos;
+    newTodos[index].complete = !newTodos[index].complete;
+    setTodos(newTodos);
+  };
+
+  const removeTodo = (index: number): void => {
+    const newTodos: ITodo[] = todos;
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  };
+
   return (
-    <React.Fragment>
+    <div className="todoback">
       <h1>Todo List</h1>
 
       <form onSubmit={handleSubmit}>
@@ -39,11 +57,16 @@ export const Todo: React.FC<Props> = () => {
         <button type="submit">Add Todo</button>
       </form>
 
-      <section>
+      <section className="todo-list">
         {todos.map((todo: ITodo, index: number) => (
-          <div key={index}>{todo.text}</div>
+          <TodoList
+            index={index}
+            todo={todo}
+            completeTodo={completeTodo}
+            removeTodo={removeTodo}
+          />
         ))}
       </section>
-    </React.Fragment>
+    </div>
   );
 };
